@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+        xmlns="http://xamarin.com/schemas/2014/forms" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+        x:Class="Tracker2.Landing"
+        NavigationPage.HasNavigationBar="true"
+        Title="ya">
+
+        <!--<Image x:Name="image" Aspect="AspectFill"/> -->
+
+      
+        <AbsoluteLayout BackgroundColor="#2E3642">
+        <Image Source="Landing_Background.JPG" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="Fill"></Image>       
+            <Button BorderColor="Black" TextColor="White" BackgroundColor="#00B9FF" HorizontalOptions="Center" VerticalOptions="Center" Text="Start Workout" Clicked="Start_Workout_Clicked" AbsoluteLayout.LayoutBounds="0.5, 0.80, 1, 50" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" WidthRequest="320" BorderWidth="1"></Button>
+            <Button BorderColor="Black" TextColor="White" BackgroundColor="#00B9FF" HorizontalOptions="Center" VerticalOptions="Center" Text="Check Progress" Clicked="Check_Progress_Clicked" AbsoluteLayout.LayoutBounds="0.5, 0.90, 1, 50" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" WidthRequest="320" BorderWidth="1"></Button>
+
+        </AbsoluteLayout>
+
+
+
+    
+</ContentPage>

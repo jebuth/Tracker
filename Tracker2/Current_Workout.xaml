@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Tracker2.Current_Workout">
+
+    <ScrollView BackgroundColor="#2E3642" VerticalOptions="FillAndExpand" >
+        <StackLayout>
+            <StackLayout x:Name="Master_Layout" BackgroundColor="White" Padding="12">
+                
+            </StackLayout> <!-- End Master_Layout -->
+
+            <StackLayout>
+                <Button Text="Fin" Clicked="Finish_Clicked" BackgroundColor="#00B9FF" TextColor="White" 
+                        BorderColor="Black" BorderWidth="1" VerticalOptions="Center"/>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

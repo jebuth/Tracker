@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Tracker2.AddRoutine"
+    Title="New Routine"
+    NavigationPage.HasNavigationBar ="true">
+
+     <ContentPage.ToolbarItems>
+        <ToolbarItem Icon = "plus.png" Order = "Primary" Clicked="Add_Workout_Clicked"/>
+    </ContentPage.ToolbarItems>   
+    
+    <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="White">
+        
+        <TableView Intent="Form" VerticalOptions="Start" BackgroundColor="White">
+
+            <TableRoot>
+                
+                <TableSection x:Name= "Table_Section">
+                    <ViewCell>
+                        <StackLayout Padding = "12, 0, 12, 0" Orientation="Horizontal">
+                            <Label VerticalOptions="Center" Text="Title: "/>
+                            <Entry x:Name="Routine_Name" Keyboard="Text" Text="" VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </ViewCell>
+                    <!--
+
+                     <ViewCell>
+                        <StackLayout Padding="12,0,12,0" Orientation="Horizontal">
+                            <Label Text="Workout Name:" VerticalOptions="Center"/>
+                            <Entry Placeholder="(eg Deadlift)" HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center" Keyboard="Text"/>
+                        </StackLayout>
+                    </ViewCell>
+                    <ViewCell>
+                        <StackLayout Padding="12, 0, 12, 0" Orientation="Horizontal">
+                            <Label Text="Sets:" VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+                            <Entry Text="{Binding Source={x:Reference Stepper}, Path=Value}" VerticalOptions="Center"/>
+                            <Stepper x:Name="Stepper" Value ="4" VerticalOptions="CenterAndExpand"/>
+                        </StackLayout>
+                    </ViewCell> --> 
+                    </TableSection>
+
+            </TableRoot>
+        </TableView>
+         
+    
+        
+        <!--<StackLayout Padding="12,0,12,0">
+            <Button Text="Add Workout" Clicked="Add_Workout_Clicked" BackgroundColor="White" 
+                    TextColor="#00B9FF" BorderColor="Black" BorderWidth="1" WidthRequest="320"/> 
+        </StackLayout> -->
+        <StackLayout Orientation="Horizontal" Padding="12,0,12,12">
+            <Button Clicked="Save_Clicked" Text="Save" TextColor="White" 
+                    BackgroundColor="#00B9FF" BorderColor="#00B9FF" BorderWidth="1" HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
+
