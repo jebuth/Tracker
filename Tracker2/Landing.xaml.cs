@@ -15,8 +15,13 @@ namespace Tracker2
         public Landing()
         {
             InitializeComponent();
+            //BackgroundImage = "Tracker2.iOS.Resources.Landing_Background.JPG";
+            //BackgroundImage = "plus.png";
+            //BackgroundImage = "Resources/bells.jpg";
+
             Start = new Start_Workout();
             Check = new Check_Progress();
+
         }
 
 		async void Start_Workout_Clicked(object sender, System.EventArgs e)

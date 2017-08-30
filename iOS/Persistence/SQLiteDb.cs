@@ -15,7 +15,7 @@ namespace Tracker2.iOS.Persistence
         {
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var path = Path.Combine(documentsPath, "MySQLite.db3");
-
+            //File.Delete(path);
             return new SQLiteAsyncConnection(path);
         }
     }

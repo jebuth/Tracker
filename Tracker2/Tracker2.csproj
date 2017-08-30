@@ -139,6 +139,7 @@
     <None Include="Images\plus%402x.png" />
     <None Include="Images\plus%403x.png" />
     <None Include="App.config" />
+    <None Include="Images\bells.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />

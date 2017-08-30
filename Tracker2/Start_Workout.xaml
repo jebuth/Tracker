@@ -14,7 +14,10 @@
         <!-- ListView of available routines -->
         <ListView x:Name = "Routines_List_View" ItemSelected="Handle_ItemSelected"></ListView>
        <!-- <Button Clicked="New_Routine_Clicked" Text="New Routine" TextColor="White" BackgroundColor="#00B9FF" BorderWidth="1" BorderColor="Black"/>-->
-       <StackLayout> <Button Text="clear" Clicked="Delete_Clicked"/></StackLayout>
+       <StackLayout> 
+            <Button Text="delete" Clicked="Delete_Clicked"/>
+
+        </StackLayout>
     </StackLayout>
         
 </ContentPage>

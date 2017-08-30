@@ -1,17 +1,33 @@
-﻿using System;
+﻿/*
+ *  Justin Buth - 08/09/2017
+ *  Start_Workout.xaml.cs
+ * 
+ *  Displays a list of saved Routines to choose from.
+ *  Once a Routine is selected, the db is queried where routine_name = selected_Routine
+ *  and retrieves a list of Workouts that is passed to Current_Workout to display workout cards.
+ * 
+ */
+
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using SQLite;
 using Tracker2.Persistence;
+using System.Linq;
 
 namespace Tracker2
 {
     public class Workouts_Table{
+
+        [PrimaryKey, AutoIncrement]
+        public int id { get; set; }
+
         [MaxLength(255)]
         public string routine_name { get; set; }
 
-		[PrimaryKey, MaxLength(255)]
+		[MaxLength(255)]
 		public string workout_name { get; set; }
 
 		[MaxLength(255)]
@@ -19,113 +35,199 @@ namespace Tracker2
 
 		[MaxLength(255)]
 		public string reps { get; set; }
+
+        [MaxLength(10)]
+        public string date { get; set; }
     }
 
 	public partial class Start_Workout : ContentPage
 	{
+        // SQLite connection variable
         private SQLiteAsyncConnection connection;
-        private ObservableCollection<Workouts_Table> _workouts_from_db;
         private ObservableCollection<string> _routine_names;
-        private ObservableCollection<string> _coupled_list;
+        private ObservableCollection<string> _coupled_list_from_AR;
+        private List<Workouts_Table> All_Rows;
+
 
 		public Start_Workout()
 		{
 			InitializeComponent();
             connection = DependencyService.Get<ISQLiteDb>().GetConnection();
-            _coupled_list = new ObservableCollection<string>();
-
-            //connection.InsertAsync(new Workouts_Table{routine_name="Dummy Routine", workout_name="Dummy Workout"});
+            _coupled_list_from_AR = new ObservableCollection<string>();
             Get_Routines_DB();
 		}
 
-        async public void Get_Routines_DB(){
-			await connection.CreateTableAsync<Workouts_Table>();
-			var workouts = await connection.Table<Workouts_Table>().ToListAsync();
-			_workouts_from_db = new ObservableCollection<Workouts_Table>(workouts);
-            _routine_names = new ObservableCollection<string>();
+        async public void Add_Dummy_Entries(){
+			await connection.InsertAsync(new Workouts_Table
+			{
+				id = 1,
+                routine_name = "gorilla chest",
+				workout_name = "Bench",
+				weight = "145, 145, 145, 145",
+				reps = "12, 12, 12, 12",
+				date = "8/9/017"
+			});
 
-            //only add distinct routine names
-            if (_workouts_from_db.Count > 0)
-            {
-                string distinct = _workouts_from_db[0].routine_name;
-                _routine_names.Add(distinct);
-                foreach (Workouts_Table w in _workouts_from_db)
-                {
-                    if (!w.routine_name.Equals(distinct))
-                    {
-                        _routine_names.Add(w.routine_name);
-                        distinct = w.routine_name;
-                    }
-                }
-            }
-            // =============================
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "gorilla chest",
+				workout_name = "Bench",
+				weight = "165, 165, 165, 165",
+				reps = "12, 12, 10, 9",
+				date = "8/9/017"
+			});
+
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "gorilla chest",
+				workout_name = "Bench",
+				weight = "175, 175, 175, 175",
+				reps = "12, 12, 10, 8",
+				date = "8/9/017"
+			});
+
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "gorilla chest",
+				workout_name = "Bench",
+				weight = "175, 175, 175, 175",
+				reps = "12, 12, 11, 9",
+				date = "8/10/017"
+			});//8400
+
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "gorilla chest",
+				workout_name = "Bench",
+				weight = "185, 185, 185, 185",
+				reps = "12, 12, 10, 10",
+				date = "8/10/017"
+			});
+
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "boulders",
+				workout_name = "Arnold Press",
+				weight = "100, 100, 100, 100",
+				reps = "12, 12, 12, 12",
+				date = "8/10/017"
+			});
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "boulders",
+				workout_name = "Overhead Press",
+				weight = "100, 100, 100, 100",
+				reps = "12, 12, 12, 12",
+				date = "8/10/017"
+			});
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "biceps",
+				workout_name = "Curl",
+				weight = "100, 100, 100, 100",
+				reps = "12, 12, 12, 12",
+				date = "8/10/017"
+			});
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "biceps",
+				workout_name = "Preacher Curl",
+				weight = "100, 100, 100, 100",
+				reps = "12, 12, 12, 12",
+				date = "8/10/017"
+			});
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "biceps",
+				workout_name = "Hammer curl",
+				weight = "100, 100, 100, 100",
+				reps = "12, 12, 12, 12",
+				date = "8/10/017"
+			});
         }
 
-		protected override async void OnAppearing()
-		{
-            if (!(_coupled_list.Count == 0)){
-                // Get ROUTINE name =================
-                string new_routine_name = _coupled_list[0];
-                //string new_workout_name = "";
-                _coupled_list.RemoveAt(0);
-         
-				// Get WORKOUT name =================
-                foreach (string new_workout_name in _coupled_list)
-				{
-                    await connection.InsertAsync(new Workouts_Table { routine_name = new_routine_name, workout_name = new_workout_name });
-                    // add to _workouts_from_db as well
-                    _workouts_from_db.Add(new Workouts_Table { routine_name = new_routine_name, workout_name = new_workout_name });
+        async public void Get_Routines_DB(){
+            //Add_Dummy_Entries();
+			await connection.CreateTableAsync<Workouts_Table>();
+            All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
+            _routine_names = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
+        }
 
-				}
-                _coupled_list.Clear();
-                _routine_names.Add(new_routine_name);
+		async protected override void OnAppearing()
+		{
+            // IF binded list contains something, then it should be added to DB
+            if (!(_coupled_list_from_AR.Count == 0)){
+				string New_Routine = _coupled_list_from_AR[0];
+				_coupled_list_from_AR.RemoveAt(0);
+
+				foreach (string Workout_Name in _coupled_list_from_AR)
+				{
+					await connection.InsertAsync(new Workouts_Table
+					{
+						routine_name = New_Routine,
+						workout_name = Workout_Name,
+						weight = "",
+						reps = "",
+						date = ""
+					});
+				}    
             }
+
+            // Refresh query and listview
+            var All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
+            _routine_names = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
             Routines_List_View.ItemsSource = _routine_names;
+
 			base.OnAppearing();
 		}
 
         // Add Routine
         async void New_Routine_Clicked(object sender, System.EventArgs e)
         {
-             AddRoutine ar = new AddRoutine(); 
-             ar.BindingContext = _coupled_list;         
+             AddRoutine ar = new AddRoutine();
+             ar.BindingContext = _coupled_list_from_AR;         
              await Navigation.PushModalAsync(new NavigationPage(ar));
         }
 
         // Delete
 		async void Delete_Clicked(object sender, System.EventArgs e)
 		{
-            try
+            if(_routine_names.Count() > 0)
             {
-                var workout = _workouts_from_db[0];
-                await DisplayAlert("yeah", workout.routine_name, "ok");
-				await connection.DeleteAsync(workout);
-                _workouts_from_db.RemoveAt(0);
-                _routine_names.RemoveAt(0);
+                All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
+                string Victim = _routine_names[0];
+                // MUST DELETE ALL ENTRIES THAT MATCH ROUTINE NAME
+                try
+                {
+                    foreach (var Row in All_Rows)
+                    {
+                        if (Row.routine_name.Equals(Victim))
+                        {
+                            await connection.DeleteAsync(Row);
+                        }
+                    }
+                }
+                catch (ArgumentOutOfRangeException ex) { await DisplayAlert("Already empty", ex.GetType().ToString(), "OK"); }
 
-            } catch (ArgumentOutOfRangeException ex){ await DisplayAlert("Already empty", ex.GetType().ToString(),"OK");}
+                // Refresh query and listview
+                All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
+                _routine_names = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
+                Routines_List_View.ItemsSource = _routine_names;
+            } else{
+                await DisplayAlert("Empty", "There are no routines to remove.", "OK");
+            }
 		}
 
 		async void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
 		{
-            string Selected_Routine = e.SelectedItem.ToString();
             List<string> Workouts_In_Selected_Routine = new List<string>();
-            var query = connection.Table<Workouts_Table>().Where(item => item.routine_name.Equals(Selected_Routine));
+            // Get all workout_names where routine_name matches e.SelectedItem(routine)
+			All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
+            ObservableCollection<Workouts_Table> query = new ObservableCollection<Workouts_Table>(All_Rows.Where(item => item.routine_name.Equals(e.SelectedItem.ToString())));
+            Workouts_In_Selected_Routine = query.Select(item => item.workout_name).Distinct().ToList();
+            // Insert routine_name at beginning of list
+            Workouts_In_Selected_Routine.Insert(0, e.SelectedItem.ToString());
 
-            // Add the Routine Name as the first element
-            Workouts_In_Selected_Routine.Add(Selected_Routine);
-
-            // Execute query and add rows(workout names) to list
-            await query.ToListAsync().ContinueWith(t =>
-            {
-                foreach (var item in t.Result)
-                {
-                    Workouts_In_Selected_Routine.Add(item.workout_name);
-
-                }
-            });
-
-            // Send list to next page
             await Navigation.PushAsync(new Current_Workout(Workouts_In_Selected_Routine));
 		}
 	}

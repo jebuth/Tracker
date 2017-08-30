@@ -4,19 +4,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
         x:Class="Tracker2.Landing"
         NavigationPage.HasNavigationBar="true"
-        Title="ya">
+        Title="Trackr">
 
-        <!--<Image x:Name="image" Aspect="AspectFill"/> -->
+       <!-- <Image x:Name="image" Aspect="AspectFill"/> -->
 
-      
-        <AbsoluteLayout BackgroundColor="#2E3642">
-        <Image Source="Landing_Background.JPG" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="Fill"></Image>       
-            <Button BorderColor="Black" TextColor="White" BackgroundColor="#00B9FF" HorizontalOptions="Center" VerticalOptions="Center" Text="Start Workout" Clicked="Start_Workout_Clicked" AbsoluteLayout.LayoutBounds="0.5, 0.80, 1, 50" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" WidthRequest="320" BorderWidth="1"></Button>
-            <Button BorderColor="Black" TextColor="White" BackgroundColor="#00B9FF" HorizontalOptions="Center" VerticalOptions="Center" Text="Check Progress" Clicked="Check_Progress_Clicked" AbsoluteLayout.LayoutBounds="0.5, 0.90, 1, 50" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" WidthRequest="320" BorderWidth="1"></Button>
+    <RelativeLayout >
+    <Image Source="plate.jpg" Opacity="1" RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"/>
+        <StackLayout RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+            Property=X,Factor=.5,Constant= 27}"
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+            Property=Y,Factor=.5,Constant= 420}">
 
-        </AbsoluteLayout>
-
-
-
-    
+            <Button BorderColor="Black" TextColor="White" BackgroundColor="#00B9FF" HorizontalOptions="Center" 
+                    VerticalOptions="Center" Text="Start Workout" Clicked="Start_Workout_Clicked" 
+                    WidthRequest="320" BorderWidth="1"></Button>
+            <Button BorderColor="Black" TextColor="White" BackgroundColor="#00B9FF" HorizontalOptions="Center" 
+                    VerticalOptions="Center" Text="Check Progress" Clicked="Check_Progress_Clicked" 
+                    AbsoluteLayout.LayoutBounds="0.5, 0.90, 1, 50" AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" 
+                    WidthRequest="320" BorderWidth="1"></Button>
+        </StackLayout>
+  </RelativeLayout>
 </ContentPage>

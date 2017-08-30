@@ -7,18 +7,12 @@ namespace Tracker2
 {
 	public partial class AddRoutine : ContentPage
 	{
-
 		private int Cell_Count;
-        //private List<Workout_Cell_Odd> Workout_Names;
-        //private ObservableCollection<string> OP_List;
-
 
 		public AddRoutine()
 		{
 			InitializeComponent();
-			//Workout_Names = new List<Workout_Cell_Odd>();
 			NavigationPage.SetHasBackButton(this, true);
-
 		}
 
 		protected override bool OnBackButtonPressed()
@@ -30,11 +24,6 @@ namespace Tracker2
 		{
 			await Navigation.PopModalAsync();
 		}
-
-		/*async void Save_Clicked(object sender, System.EventArgs e)
-        {
-            await Navigation.PopModalAsync(); // whatever
-        }*/
 
 		void Add_Workout_Clicked(object sender, System.EventArgs e)
 		{
@@ -54,8 +43,7 @@ namespace Tracker2
 			Workout_Cell_Odd odd = null;
 			Workout_Cell_Even even = null;
 			bool Odd_Iteration = true;
-			Routine Added_Routine = null;
-
+			//Routine Added_Routine = null;
 
 			// Skip first Cell in list bc it is neither Cell_Odd/Even
 			if (Routine_Name.Text == "")
@@ -64,12 +52,12 @@ namespace Tracker2
 			}
 			else
 			{
-				Added_Routine = new Routine(Routine_Name.Text);
+				//Added_Routine = new Routine(Routine_Name.Text);
 
 
                 // ======================
-                ObservableCollection<string> _coupled_list = this.BindingContext as ObservableCollection<string>;
-                _coupled_list.Add(Routine_Name.Text);
+                ObservableCollection<string> _coupled_list_from_AR = this.BindingContext as ObservableCollection<string>;
+                _coupled_list_from_AR.Add(Routine_Name.Text);
                 // ======================
 				Cell_List.MoveNext();
 
@@ -84,8 +72,8 @@ namespace Tracker2
 						//debug += odd.Get_Info() + " ";                      
 						workout = odd.Get_Info();
 
-
-                        _coupled_list.Add(odd.Get_Info());
+                        // ADD WORKOUT NAME TO LIST
+                        _coupled_list_from_AR.Add(odd.Get_Info());
                         Odd_Iteration = false;
 					}
 					else
@@ -95,7 +83,7 @@ namespace Tracker2
 						sets = even.Get_Info();
 						Odd_Iteration = true;
 
-						Added_Routine.Add_Workout(workout, 4); // cast 2nd parameter
+						//Added_Routine.Add_Workout(workout, 4); // cast 2nd parameter
 					}
 
 				}
@@ -105,9 +93,10 @@ namespace Tracker2
 
                 //debug strings
                 string w = "";
-                foreach (string s in _coupled_list){
+                foreach (string s in _coupled_list_from_AR){
                     w += s + "\n";
                 }
+                //await DisplayAlert("AddRoutine", w, "k");
 
 				await Navigation.PopModalAsync();
 			} 
