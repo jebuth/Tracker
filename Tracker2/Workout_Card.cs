@@ -151,10 +151,10 @@ namespace Tracker2
             Previous_Column3 = new Entry();
             Previous_Column4 = new Entry();
 
-            Previous_Column1.Placeholder = "135 lbs. X 12 reps";
-            Previous_Column2.Placeholder = "135 lbs. X 12 reps";
-            Previous_Column3.Placeholder = "135 lbs. X 12 reps";
-            Previous_Column4.Placeholder = "135 lbs. X 12 reps";
+            Previous_Column1.Placeholder = "35 lbs. X 12 reps";
+            Previous_Column2.Placeholder = "35 lbs. X 12 reps";
+            Previous_Column3.Placeholder = "35 lbs. X 12 reps";
+            Previous_Column4.Placeholder = "35 lbs. X 12 reps";
 
             Previous_Column1.BackgroundColor = new Color(255, 255, 255);
             Previous_Column2.BackgroundColor = new Color(255, 255, 255);
@@ -184,22 +184,34 @@ namespace Tracker2
             Lbs_Column4.Placeholder = "lbs.";
 
             Lbs_Column1.TextChanged += delegate {
-                Weight[0] = float.Parse(Lbs_Column1.Text, CultureInfo.InvariantCulture.NumberFormat);
+                if (Lbs_Column1.Text.Equals(""))
+                    Weight[0] = 0;
+                else
+                    Weight[0] = float.Parse(Lbs_Column1.Text, CultureInfo.InvariantCulture.NumberFormat);
             };
 
 			Lbs_Column2.TextChanged += delegate
 			{
-				Weight[1] = float.Parse(Lbs_Column2.Text, CultureInfo.InvariantCulture.NumberFormat);
+				if (Lbs_Column2.Text.Equals(""))
+					Weight[1] = 0;
+				else
+				    Weight[1] = float.Parse(Lbs_Column2.Text, CultureInfo.InvariantCulture.NumberFormat);
 			};
 
 			Lbs_Column3.TextChanged += delegate
 			{
-				Weight[2] = float.Parse(Lbs_Column3.Text, CultureInfo.InvariantCulture.NumberFormat);
+				if (Lbs_Column3.Text.Equals(""))
+					Weight[2] = 0;
+				else
+                    Weight[2] = float.Parse(Lbs_Column3.Text, CultureInfo.InvariantCulture.NumberFormat);
 			};
 
 			Lbs_Column4.TextChanged += delegate
 			{
-				Weight[3] = float.Parse(Lbs_Column4.Text, CultureInfo.InvariantCulture.NumberFormat);
+				if (Lbs_Column4.Text.Equals(""))
+					Weight[3] = 0;
+				else
+                    Weight[3] = float.Parse(Lbs_Column4.Text, CultureInfo.InvariantCulture.NumberFormat);
 			};
 
             Lbs_Column1.BackgroundColor = new Color(255, 255, 255);
@@ -230,22 +242,34 @@ namespace Tracker2
             Rep_Column4.Placeholder = "reps";
 
             Rep_Column1.TextChanged += delegate {
-                Reps[0] = Convert.ToByte(Rep_Column1.Text);
+                if (Rep_Column1.Text.Equals(""))
+                    Reps[0] = 0;
+                else
+                    Reps[0] = Convert.ToByte(Rep_Column1.Text);
             };
 
 			Rep_Column2.TextChanged += delegate
 			{
-				Reps[1] = Convert.ToByte(Rep_Column2.Text);
+				if (Rep_Column2.Text.Equals(""))
+					Reps[1] = 0;
+				else
+				    Reps[1] = Convert.ToByte(Rep_Column2.Text);
 			};
 
 			Rep_Column3.TextChanged += delegate
 			{
-				Reps[2] = Convert.ToByte(Rep_Column3.Text);
+				if (Rep_Column3.Text.Equals(""))
+					Reps[2] = 0;
+				else
+				    Reps[2] = Convert.ToByte(Rep_Column3.Text);
 			};
 
 			Rep_Column4.TextChanged += delegate
 			{
-				Reps[3] = Convert.ToByte(Rep_Column4.Text);
+				if (Rep_Column4.Text.Equals(""))
+					Reps[3] = 0;
+				else
+				    Reps[3] = Convert.ToByte(Rep_Column4.Text);
 			};
 
 

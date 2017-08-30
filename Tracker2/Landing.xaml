@@ -8,7 +8,7 @@
 
        <!-- <Image x:Name="image" Aspect="AspectFill"/> -->
 
-    <RelativeLayout >
+    <RelativeLayout>
     <Image Source="plate.jpg" Opacity="1" RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"/>
         <StackLayout RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
             Property=X,Factor=.5,Constant= 27}"
