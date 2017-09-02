@@ -19,7 +19,8 @@ using System.Linq;
 
 namespace Tracker2
 {
-    public class Workouts_Table{
+    public class Workouts_Table
+    {
 
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
@@ -27,14 +28,14 @@ namespace Tracker2
         [MaxLength(255)]
         public string routine_name { get; set; }
 
-		[MaxLength(255)]
-		public string workout_name { get; set; }
+        [MaxLength(255)]
+        public string workout_name { get; set; }
 
-		[MaxLength(255)]
-		public string weight { get; set; }
+        [MaxLength(255)]
+        public string weight { get; set; }
 
-		[MaxLength(255)]
-		public string reps { get; set; }
+        [MaxLength(255)]
+        public string reps { get; set; }
 
         [MaxLength(10)]
         public string date { get; set; }
@@ -48,6 +49,8 @@ namespace Tracker2
         private ObservableCollection<string> _coupled_list_from_AR;
         private List<Workouts_Table> All_Rows;
 
+        private ListView RList = new ListView();
+
 
 		public Start_Workout()
 		{
@@ -55,7 +58,38 @@ namespace Tracker2
             connection = DependencyService.Get<ISQLiteDb>().GetConnection();
             _coupled_list_from_AR = new ObservableCollection<string>();
             Get_Routines_DB();
+            AddContextAction();
+		
 		}
+
+        public void AddContextAction(){
+			var PageLayout = new StackLayout();
+			RList.ItemSelected += Handle_ItemSelected;
+            //var Delete = new MenuItem { Text = "Delete", IsDestructive = true, CommandParameter="id" };
+
+			RList.ItemTemplate = new DataTemplate(() =>
+            {
+            var tc = new TextCell();
+            var Delete = new MenuItem { Text = "Delete", IsDestructive = true, CommandParameter = "id" };
+            tc.ContextActions.Add(Delete);
+
+            Delete.Clicked += (sender, e) =>
+            {
+            var mi = ((MenuItem)sender);
+            DisplayAlert("ok", mi.BindingContext.ToString(), "ok");
+                // remove by routine name
+                    DeleteRoutine(mi.BindingContext.ToString());
+			    };
+
+				tc.SetBinding(TextCell.TextProperty, ".");
+				return tc;
+			});
+
+			RList.ItemsSource = _routine_names;
+
+			PageLayout.Children.Add(RList);
+			Content = PageLayout;
+        }
 
         async public void Add_Dummy_Entries(){
 			await connection.InsertAsync(new Workouts_Table
@@ -176,7 +210,10 @@ namespace Tracker2
             // Refresh query and listview
             var All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
             _routine_names = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
-            Routines_List_View.ItemsSource = _routine_names;
+
+
+            //Routines_List_View.ItemsSource = _routine_names;
+            RList.ItemsSource = _routine_names;
 
 			base.OnAppearing();
 		}
@@ -190,12 +227,12 @@ namespace Tracker2
         }
 
         // Delete
-		async void Delete_Clicked(object sender, System.EventArgs e)
+		async void DeleteRoutine(string Victim)
 		{
             if(_routine_names.Count() > 0)
             {
                 All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
-                string Victim = _routine_names[0];
+                //string Victim = _routine_names[0];
                 // MUST DELETE ALL ENTRIES THAT MATCH ROUTINE NAME
                 try
                 {
@@ -212,7 +249,10 @@ namespace Tracker2
                 // Refresh query and listview
                 All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
                 _routine_names = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
-                Routines_List_View.ItemsSource = _routine_names;
+
+                //Routines_List_View.ItemsSource = _routine_names;
+                RList.ItemsSource = _routine_names;
+            
             } else{
                 await DisplayAlert("Empty", "There are no routines to remove.", "OK");
             }

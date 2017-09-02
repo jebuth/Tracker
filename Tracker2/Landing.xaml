@@ -8,12 +8,12 @@
 
        <!-- <Image x:Name="image" Aspect="AspectFill"/> -->
 
-    <RelativeLayout>
-    <Image Source="plate.jpg" Opacity="1" RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"/>
+    <RelativeLayout Padding="0,0,0,0" BackgroundColor="Fuchsia">
+    <Image Aspect="Fill" Source="plate.jpg" Opacity="1" RelativeLayout.WidthConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width}"/>
         <StackLayout RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-            Property=X,Factor=.5,Constant= 27}"
+            Property=X,Factor=1,Constant= 27}"
             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-            Property=Y,Factor=.5,Constant= 420}">
+            Property=Y,Factor=1,Constant= 420}">
 
             <Button BorderColor="Black" TextColor="White" BackgroundColor="#00B9FF" HorizontalOptions="Center" 
                     VerticalOptions="Center" Text="Start Workout" Clicked="Start_Workout_Clicked" 
