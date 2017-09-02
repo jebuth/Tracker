@@ -94,6 +94,7 @@
     <Compile Include="Current_Progress.xaml.cs">
       <DependentUpon>Current_Progress.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DefaultRoutines.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Splat">
