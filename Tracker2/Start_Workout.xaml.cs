@@ -178,10 +178,26 @@ namespace Tracker2
 				reps = "12, 12, 12, 12",
 				date = "8/10/017"
 			});
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "cobra back",
+				workout_name = "lat pull",
+				weight = "100, 100, 100, 100",
+				reps = "12, 12, 12, 12",
+				date = "8/10/017"
+			});
+			await connection.InsertAsync(new Workouts_Table
+			{
+				routine_name = "legs",
+				workout_name = "sumo",
+				weight = "100, 100, 100, 100",
+				reps = "12, 12, 12, 12",
+				date = "8/10/017"
+			});
         }
 
         async public void Get_Routines_DB(){
-            //Add_Dummy_Entries();
+            Add_Dummy_Entries();
 			await connection.CreateTableAsync<Workouts_Table>();
             All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
             _routine_names = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
