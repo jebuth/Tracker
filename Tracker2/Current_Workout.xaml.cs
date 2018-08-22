@@ -74,17 +74,19 @@ namespace Tracker2
 
                 string_reps += tuple.Item4[0].ToString() + "," + tuple.Item4[1].ToString() + "," +
 								   tuple.Item4[2].ToString() + "," + tuple.Item4[3].ToString() + "\n";
-
-
+                
                 DateTime dt = DateTime.Now;
-
 
                 //await DisplayAlert("Info", this.Title + "\n" + tuple.Item1 + "\n" + string_weight + "\n" + string_reps + "\n" + dt.ToString("d") + "\n", "OK");
 
                 await connection.InsertAsync(new Workouts_Table 
-                { routine_name = this.Title, workout_name = tuple.Item1, weight = string_weight, 
-                                                                  reps = string_reps,
-                                                                  date = dt.ToString("d")});
+                { 
+                    routine_name = this.Title, 
+                    workout_name = tuple.Item1, 
+                    weight = string_weight, 
+                    reps = string_reps,
+                    date = dt.ToString("d")
+                });
 
                 string_reps = "";
                 string_weight = "";
