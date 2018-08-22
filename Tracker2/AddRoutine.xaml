@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Tracker2.AddRoutine"
-    Title="New Routine"
+    Title="Add Routine"
     NavigationPage.HasNavigationBar ="true">
 
      <ContentPage.ToolbarItems>
-        <ToolbarItem Icon = "plus.png" Order = "Primary" Clicked="Add_Workout_Clicked"/>
+        <ToolbarItem Icon = "plus.png" Order = "Primary" Clicked="AddWorkoutClicked"/>
     </ContentPage.ToolbarItems>   
     
     <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="White">
@@ -49,7 +49,7 @@
                     TextColor="#00B9FF" BorderColor="Black" BorderWidth="1" WidthRequest="320"/> 
         </StackLayout> -->
         <StackLayout Orientation="Horizontal" Padding="12,0,12,12">
-            <Button Clicked="Save_Clicked" Text="Save" TextColor="White" 
+            <Button Clicked="SaveClicked" Text="Save" TextColor="White" 
                     BackgroundColor="#00B9FF" BorderColor="#00B9FF" BorderWidth="1" HorizontalOptions="FillAndExpand"/>
         </StackLayout>
     </StackLayout>
