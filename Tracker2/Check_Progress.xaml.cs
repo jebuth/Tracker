@@ -13,26 +13,26 @@ namespace Tracker2
 		private SQLiteAsyncConnection connection;
 		//private ObservableCollection<Workouts_Table> _workouts_from_db;
 		//private ObservableCollection<string> _routine_names;
-        private ObservableCollection<string> _workout_names;
-		private ObservableCollection<string> _coupled_list;
+        private ObservableCollection<string> workoutNames;
+		private ObservableCollection<string> coupledList;
         private List<Workouts_Table> All_Rows;
 
         public Check_Progress()
         {
             InitializeComponent();
 			connection = DependencyService.Get<ISQLiteDb>().GetConnection();
-			_coupled_list = new ObservableCollection<string>();
+			coupledList = new ObservableCollection<string>();
 
-			
-			Get_Workouts_DB();
+			// test data
+			GetWorkoutsFromDB();
 
         }
 
-		async public void Get_Workouts_DB()
+		async public void GetWorkoutsFromDB()
 		{
 			await connection.CreateTableAsync<Workouts_Table>();
 			All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
-			_workout_names = new ObservableCollection<string>(All_Rows.Select(item => item.workout_name).Distinct().ToList());
+			workoutNames = new ObservableCollection<string>(All_Rows.Select(item => item.workout_name).Distinct().ToList());
 
             /*
 			await connection.CreateTableAsync<Workouts_Table>();
@@ -64,8 +64,8 @@ namespace Tracker2
 		async protected override void OnAppearing()
 		{
 			All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
-			_workout_names = new ObservableCollection<string>(All_Rows.Select(item => item.workout_name).Distinct().ToList());
-			Routines_List_View.ItemsSource = _workout_names;
+			workoutNames = new ObservableCollection<string>(All_Rows.Select(item => item.workout_name).Distinct().ToList());
+			Routines_List_View.ItemsSource = workoutNames;
 			base.OnAppearing();
 		}
 
@@ -77,6 +77,8 @@ namespace Tracker2
             var query = await connection.Table<Workouts_Table>().Where(item => item.workout_name.Equals(Selected_Workout)).ToListAsync();
 
             ObservableCollection<Workouts_Table> WTF = new ObservableCollection<Workouts_Table>(query);
+
+            // TODO: check for null
 
             string longstring = "";
             foreach(Workouts_Table t in WTF){
