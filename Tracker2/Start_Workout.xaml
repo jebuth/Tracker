@@ -6,7 +6,7 @@
     Title="Routines"
 	Padding="0, 20, 0, 0">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Icon = "plus.png" Order = "Primary" Clicked="New_Routine_Clicked"/>
+        <ToolbarItem Icon = "plus.png" Order = "Primary" Clicked="NewRoutineClicked"/>
 
     </ContentPage.ToolbarItems>
     <!--
