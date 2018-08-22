@@ -41,21 +41,21 @@ namespace Tracker2
         public string date { get; set; }
     }
 
-	public partial class Start_Workout : ContentPage
+    public partial class Start_Workout : ContentPage
 	{
         // SQLite connection variable
         private SQLiteAsyncConnection connection;
-        private ObservableCollection<string> _routine_names;
-        private ObservableCollection<string> _coupled_list_from_AR;
-        private List<Workouts_Table> All_Rows;
+        private ObservableCollection<string> routineNames;
+        private ObservableCollection<string> coupledListFromAR;
+        private List<Workouts_Table> allRows;
         private ListView RList = new ListView();
 
 		public Start_Workout()
 		{
 			InitializeComponent();
             connection = DependencyService.Get<ISQLiteDb>().GetConnection();
-            _coupled_list_from_AR = new ObservableCollection<string>();
-            Get_Routines_DB();
+            coupledListFromAR = new ObservableCollection<string>();
+            GetRoutinesDB();
             AddContextAction();
 		}
 
@@ -75,12 +75,12 @@ namespace Tracker2
 				tc.SetBinding(TextCell.TextProperty, ".");
 				return tc;
 			});
-			RList.ItemsSource = _routine_names;
+			RList.ItemsSource = routineNames;
 			PageLayout.Children.Add(RList);
 			Content = PageLayout;
         }
 
-        async public void Add_Dummy_Entries(){
+        async public void addDummyEntries(){
             DefaultRoutines DR = new DefaultRoutines();
             foreach (Workouts_Table WT in DR.GetRoutineList())
             {
@@ -88,19 +88,19 @@ namespace Tracker2
             }
         }
 
-        async public void Get_Routines_DB(){
-            Add_Dummy_Entries();
+        async public void GetRoutinesDB(){
+            addDummyEntries();
 			await connection.CreateTableAsync<Workouts_Table>();
-            All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
-            _routine_names = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
+            allRows = await connection.Table<Workouts_Table>().ToListAsync();
+            routineNames = new ObservableCollection<string>(allRows.Select(item => item.routine_name).Distinct().ToList());
         }
 
 		async protected override void OnAppearing()
 		{
-            if (!(_coupled_list_from_AR.Count == 0)){
-				string New_Routine = _coupled_list_from_AR[0];
-				_coupled_list_from_AR.RemoveAt(0);
-				foreach (string Workout_Name in _coupled_list_from_AR)
+            if (!(coupledListFromAR.Count == 0)){
+				string New_Routine = coupledListFromAR[0];
+				coupledListFromAR.RemoveAt(0);
+				foreach (string Workout_Name in coupledListFromAR)
 				{
 					await connection.InsertAsync(new Workouts_Table
 					{
@@ -114,28 +114,28 @@ namespace Tracker2
             }
             // Refresh query and listview
             var All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
-            _routine_names = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
-            RList.ItemsSource = _routine_names;
+            routineNames = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
+            RList.ItemsSource = routineNames;
 			base.OnAppearing();
 		}
 
         // Add Routine
-        async void New_Routine_Clicked(object sender, System.EventArgs e)
+        async void NewRoutineClicked(object sender, System.EventArgs e)
         {
              AddRoutine ar = new AddRoutine();
-             ar.BindingContext = _coupled_list_from_AR;         
+             ar.BindingContext = coupledListFromAR;         
              await Navigation.PushModalAsync(new NavigationPage(ar));
         }
 
         // Delete
 		async void DeleteRoutine(string Victim)
 		{
-            if(_routine_names.Count() > 0)
+            if(routineNames.Count() > 0)
             {
-                All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
+                allRows = await connection.Table<Workouts_Table>().ToListAsync();
                 try
                 {
-                    foreach (var Row in All_Rows)
+                    foreach (var Row in allRows)
                     {
                         if (Row.routine_name.Equals(Victim))
                         {
@@ -146,9 +146,9 @@ namespace Tracker2
                 catch (ArgumentOutOfRangeException ex) { await DisplayAlert("Already empty", ex.GetType().ToString(), "OK"); }
 
                 // Refresh query and listview
-                All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
-                _routine_names = new ObservableCollection<string>(All_Rows.Select(item => item.routine_name).Distinct().ToList());
-                RList.ItemsSource = _routine_names;
+                allRows = await connection.Table<Workouts_Table>().ToListAsync();
+                routineNames = new ObservableCollection<string>(allRows.Select(item => item.routine_name).Distinct().ToList());
+                RList.ItemsSource = routineNames;
             
             } else{
                 await DisplayAlert("Empty", "There are no routines to remove.", "OK");
@@ -159,8 +159,8 @@ namespace Tracker2
 		{
             List<string> Workouts_In_Selected_Routine = new List<string>();
             // Get all workout_names where routine_name matches e.SelectedItem(routine)
-			All_Rows = await connection.Table<Workouts_Table>().ToListAsync();
-            ObservableCollection<Workouts_Table> query = new ObservableCollection<Workouts_Table>(All_Rows.Where(item => item.routine_name.Equals(e.SelectedItem.ToString())));
+			allRows = await connection.Table<Workouts_Table>().ToListAsync();
+            ObservableCollection<Workouts_Table> query = new ObservableCollection<Workouts_Table>(allRows.Where(item => item.routine_name.Equals(e.SelectedItem.ToString())));
             Workouts_In_Selected_Routine = query.Select(item => item.workout_name).Distinct().ToList();
             // Insert routine_name at beginning of list
             Workouts_In_Selected_Routine.Insert(0, e.SelectedItem.ToString());
