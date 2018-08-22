@@ -19,18 +19,20 @@ namespace Tracker2
             //BackgroundImage = "plus.png";
             //BackgroundImage = "Resources/bells.jpg";
 
-            Start = new Start_Workout();
-            Check = new Check_Progress();
+            //Start = new Start_Workout();
+            //Check = new Check_Progress();
 
         }
 
 		async void Start_Workout_Clicked(object sender, System.EventArgs e)
 		{
+            Start = new Start_Workout();
             await Navigation.PushAsync(Start);
 		}
 
 	    async void Check_Progress_Clicked(object sender, System.EventArgs e)
 		{
+            Check = new Check_Progress();
             await Navigation.PushAsync(Check);
 		}
     }
