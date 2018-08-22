@@ -21,7 +21,6 @@ namespace Tracker2
 
             //Start = new Start_Workout();
             //Check = new Check_Progress();
-
         }
 
 		async void Start_Workout_Clicked(object sender, System.EventArgs e)
